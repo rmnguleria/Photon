@@ -8,15 +8,16 @@ export class AuthService {
 
     constructor(private http: Http) {
         // set token if saved in local storage
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
 
     login(username, password): Observable<boolean> {
         let headers = new Headers();
-        headers.append("Accept","application/json");
-        headers.append("Content-Type","application/json");
-        return this.http.post('http://localhost:8080/api/authenticate', JSON.stringify({ username: username, password: password }),{headers: headers})
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        return this.http.post('http://localhost:8080/api/authenticate', 
+        JSON.stringify({ username: username, password: password }),{headers: headers})
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 let token = response.json() && response.json().id_token;

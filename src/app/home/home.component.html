@@ -1,3 +1,22 @@
-<p>
-  home works!
-</p>
+<form (ngSubmit)="onAddRole()" #selectRoleForm="ngForm">
+  <select required [(ngModel)]="selectedRole.role" (ngModelChange)="onRoleChange($event)" name="role" #role="ngModel">
+    <option *ngFor="let p of roles" [value]="p">{{p}}</option>
+  </select>
+  <select required [(ngModel)]="selectedRole.tenant" (ngModelChange)="onTenantChange($event)" name="tenant" #tenant="ngModel">
+    <option *ngFor="let p of tenants" [value]="p">{{p}}</option>
+  </select>
+  <select required [(ngModel)]="selectedRole.pos" name="pointOfSale" #pointOfSale="ngModel">
+    <option *ngFor="let p of pos" [value]="p">{{p}}</option>
+  </select>
+  <button type="submit" [disabled]="!selectRoleForm.form.valid"> Add </button>
+</form>
+
+  <ul>
+    <li *ngFor="let p of selectedRoles">
+      <span>{{p.role}} , {{p.tenant}} , {{p.pos}}</span>
+      <button class="delete" (click)="removeRole(p); $event.stopPropagation()">x</button>
+    </li>
+  </ul>
+  <input required [(ngModel)] = "roleRequest.managerEmail" name="email"/>
+  <button (click)="onSubmit()"> Submit </button>
+  <p><a [routerLink]="['/login']">Logout</a></p>

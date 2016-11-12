@@ -1,5 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth.service';
+import {UserService} from './user.service';
 import { AuthGuard } from './_guards/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -26,7 +27,8 @@ import { HomeComponent } from './home/home.component';
   ],
   providers: [
     AuthGuard,
-    AuthService
+    AuthService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
