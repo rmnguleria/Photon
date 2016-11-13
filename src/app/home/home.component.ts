@@ -10,7 +10,7 @@ import {UserService} from '../user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private userInfo: User;
+  private userInfo: User = new User();
   private selectedRole: RoleInfo = new RoleInfo();
   private selectedRoles: RoleInfo[] = new Array();
   private roleRequest: RoleRequest = new RoleRequest();
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   roles= ['Campaign Owner', 'Campaign Manager', 'Campaign Viewer'];
   tenants = [];
   pos = [];
+  error = '';
 
   constructor(private userService: UserService) { }
 
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   onRoleChange(newRole) {
+    this.error = '';
     this.tenants = [];
     for (let i = 0; i < this.groupRoleInfo.length ; i++) {
       let groupRole = this.groupRoleInfo[i];
@@ -38,6 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   onTenantChange(newTenant) {
+    this.error = '';
     this.pos = [];
     for (let i = 0; i < this.groupRoleInfo.length ; i++) {
       let groupRole = this.groupRoleInfo[i];
@@ -48,6 +51,7 @@ export class HomeComponent implements OnInit {
   }
 
   onAddRole() {
+    console.log('Affing role');
     for (let i = 0; i < this.groupRoleInfo.length ; i++) {
       let groupRole = this.groupRoleInfo[i];
       if (groupRole['tenant'] === this.selectedRole.tenant &&
@@ -58,7 +62,27 @@ export class HomeComponent implements OnInit {
           role.tenant = this.selectedRole.tenant;
           role.pos = this.selectedRole.pos;
           role.role = this.selectedRole.role;
-          this.selectedRoles.push(role);
+          console.log(role);
+          let push = true;
+          for (let j = 0; j < this.userInfo.roles.length; j++){
+            let curRole = this.userInfo.roles[j];
+            console.log(curRole);
+            if (role.groupRoleId === curRole.groupRoleId) {
+              console.log('MAtches');
+              if (curRole.status === 'Active') {
+                push = false;
+                this.error = 'Already exists , bitch !';
+              }else if (curRole.status === 'Waiting') {
+                push = false;
+                this.error = 'Already waiting, cunt!';
+              }
+              break;
+            }
+          }
+          if (push === true) {
+            this.error = '';
+            this.selectedRoles.push(role);
+          }
           break;
       }
     }
@@ -67,7 +91,9 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     this.roleRequest.requestedRoles = new Array();
     this.roleRequest.requestedRoles = this.selectedRoles;
-    this.userService.submitRoleRequest(this.roleRequest).then(response => 1 + 1);
+    this.userService.submitRoleRequest(this.roleRequest).then(response => {
+
+    });
   }
 
   removeRole(role: RoleInfo) {

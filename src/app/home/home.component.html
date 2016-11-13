@@ -1,4 +1,4 @@
-<form (ngSubmit)="onAddRole()" #selectRoleForm="ngForm">
+<form (ngSubmit)="selectRoleForm.form.valid && onAddRole()" name="selectRole"  #selectRoleForm="ngForm" novalidate>
   <select required [(ngModel)]="selectedRole.role" (ngModelChange)="onRoleChange($event)" name="role" #role="ngModel">
     <option *ngFor="let p of roles" [value]="p">{{p}}</option>
   </select>
@@ -9,6 +9,7 @@
     <option *ngFor="let p of pos" [value]="p">{{p}}</option>
   </select>
   <button type="submit" [disabled]="!selectRoleForm.form.valid"> Add </button>
+  <div *ngIf="selectRoleForm.submitted && error" class="alert alert-danger">{{error}}</div>
 </form>
 
   <ul>
@@ -20,3 +21,8 @@
   <input required [(ngModel)] = "roleRequest.managerEmail" name="email"/>
   <button (click)="onSubmit()"> Submit </button>
   <p><a [routerLink]="['/login']">Logout</a></p>
+  <ul>
+    <li *ngFor="let p of userInfo.roles">
+      <span>{{p.tenant}},{{p.pos}},{{p.role}},{{p.status}}</span>
+    </li>
+  </ul>

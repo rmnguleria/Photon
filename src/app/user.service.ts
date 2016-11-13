@@ -9,9 +9,9 @@ export class UserService {
 
     getBrandMap(): Promise<any> {
         let headers = new Headers();
-        headers.append("Accept","application/json");
-        headers.append("Content-Type","application/json");
-        return this.http.get("http://localhost:8080/api/groups",{headers: headers})
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        return this.http.get('http://localhost:8080/api/groups', {headers: headers})
                .toPromise()
                .then(response => response.json() as any)
                .catch(this.handleError);
@@ -19,8 +19,8 @@ export class UserService {
 
     getGroupRoleMap(): Promise<any> {
         let headers = new Headers();
-        headers.append("Accept","application/json");
-        return this.http.get("http://localhost:8080/api/grouprole",{headers: headers})
+        headers.append('Accept', 'application/json');
+        return this.http.get('http://localhost:8080/api/grouprole', {headers: headers})
                .toPromise()
                .then(response => response.json() as any)
                .catch(this.handleError);
@@ -28,11 +28,11 @@ export class UserService {
 
     getUserInfo(): Promise<any> {
         let headers = new Headers();
-        headers.append("Accept","application/json");
-        headers.append("Content-Type","application/json");
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        headers.append("Authorization","Bearer "+ currentUser.token);
-        return this.http.get("http://localhost:8080/api/account",{headers: headers})
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        headers.append('Authorization', 'Bearer ' + currentUser.token);
+        return this.http.get('http://localhost:8080/api/account', {headers: headers})
                .toPromise()
                .then(response => response.json() as any)
                .catch(this.handleError);
@@ -40,12 +40,11 @@ export class UserService {
 
     submitRoleRequest(roleRequest: RoleRequest): Promise<any> {
         let headers = new Headers();
-        headers.append("Accept","application/json");
-        headers.append("Content-Type","application/json");
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        headers.append("Authorization","Bearer "+ currentUser.token);
-
-        return this.http.post("http://localhost:8080/api/requestrole",roleRequest,{headers: headers})
+       headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        headers.append('Authorization', 'Bearer ' + currentUser.token);
+        return this.http.post('http://localhost:8080/api/requestrole', roleRequest, {headers: headers})
               .toPromise()
               .then(response => response.json as any)
               .catch(this.handleError);
