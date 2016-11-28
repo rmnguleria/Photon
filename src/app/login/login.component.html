@@ -1,18 +1,27 @@
-<div class="controller">
+<div class="container">
+	<div class="intro">
+		<h1 id="title">
+			Photon
+		</h1>
+	</div>
     <div class="login-form">
-		<h3> PHOTON </h3>
+		<div class="login-header">
+			Log In
+		</div>
 		<form class="form-horizontal" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
-			<div class="form-group has-feedback has-feedback-left" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-				<label for="username" class="col-md-2">Username</label>
-				<div class="col-md-2">
+			<label for="username" class="col-md-5">Username</label>
+			<br/>
+			<div class="form-group text-center has-feedback has-feedback-left" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+				<div style="margin:0 auto; float: unset;" class="col-md-5">
 					<i class="glyphicon glyphicon-user form-control-feedback"></i>
 					<input type="text" placeholder="Username" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
 					<div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
 				</div>
 			</div>
-			<div class="form-group has-feedback has-feedback-left" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-				<label class="col-md-2" for="password">Password</label>
-				<div class="col-md-2">
+			<label style="margin-left: auto; margin-right: auto;" class="col-md-5" for="password">Password</label>
+			<br/>
+			<div class="form-group text-center has-feedback has-feedback-left" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+				<div style="margin:0 auto; float: unset;" class="col-md-5">
 					<i class="glyphicon glyphicon-lock form-control-feedback"></i>
 					<input type="password" placeholder="Password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
 					<div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>

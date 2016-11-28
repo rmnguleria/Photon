@@ -30,9 +30,12 @@ model: any = {};
                     this.router.navigate(['/']);
                 } else {
                     this.error = 'Username or password is incorrect';
-                    this.loading = false;
                 }
-            });
+            }, error => {
+                this.error = <any>error;
+                this.loading = false;
+            }
+            );
     }
 
 }

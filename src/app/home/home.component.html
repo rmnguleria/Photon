@@ -1,28 +1,78 @@
-<form (ngSubmit)="selectRoleForm.form.valid && onAddRole()" name="selectRole"  #selectRoleForm="ngForm" novalidate>
-  <select required [(ngModel)]="selectedRole.role" (ngModelChange)="onRoleChange($event)" name="role" #role="ngModel">
-    <option *ngFor="let p of roles" [value]="p">{{p}}</option>
-  </select>
-  <select required [(ngModel)]="selectedRole.tenant" (ngModelChange)="onTenantChange($event)" name="tenant" #tenant="ngModel">
-    <option *ngFor="let p of tenants" [value]="p">{{p}}</option>
-  </select>
-  <select required [(ngModel)]="selectedRole.pos" name="pointOfSale" #pointOfSale="ngModel">
-    <option *ngFor="let p of pos" [value]="p">{{p}}</option>
-  </select>
-  <button type="submit" [disabled]="!selectRoleForm.form.valid"> Add </button>
-  <div *ngIf="selectRoleForm.submitted && error" class="alert alert-danger">{{error}}</div>
-</form>
-
-  <ul>
-    <li *ngFor="let p of selectedRoles">
-      <span>{{p.role}} , {{p.tenant}} , {{p.pos}}</span>
-      <button class="delete" (click)="removeRole(p); $event.stopPropagation()">x</button>
-    </li>
-  </ul>
-  <input required [(ngModel)] = "roleRequest.managerEmail" name="email"/>
-  <button (click)="onSubmit()"> Submit </button>
-  <p><a [routerLink]="['/login']">Logout</a></p>
-  <ul>
-    <li *ngFor="let p of userInfo.roles">
-      <span>{{p.tenant}},{{p.pos}},{{p.role}},{{p.status}}</span>
-    </li>
-  </ul>
+<div class="container">
+  <div class="row">
+  <div class="col-md-10">
+    <div class="pull-left">
+      <a class="navbar-brand" href="#">Photon</a>
+    </div>
+    <div class="pull-right">
+      <a class="navbar-brand" [routerLink]="['/login']">Logout</a>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="addform col-md-4">
+      <div class="role-header">
+        REQUEST ROLE
+      </div>
+      <form class="form-horizontal" (ngSubmit)="selectRoleForm.form.valid && onAddRole()" name="selectRole"  #selectRoleForm="ngForm" novalidate>
+        <div class="form-group">
+          <div style="margin:0 auto; float: unset; padding: 15px;" class="col-md-7">
+          <select class="form-control" required [(ngModel)]="selectedRole.role" (ngModelChange)="onRoleChange($event)" name="role" #role="ngModel">
+            <option value="none" disabled selected>Choose your role</option>
+            <option *ngFor="let p of roles" [value]="p">{{p}}</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div style="margin:0 auto; float: unset; padding: 15px;" class="col-md-7">
+            <select class="form-control" required [(ngModel)]="selectedRole.tenant" (ngModelChange)="onTenantChange($event)" name="tenant" #tenant="ngModel">
+              <option value="none" disabled selected>Choose your brand</option>
+              <option *ngFor="let p of tenants" [value]="p">{{p}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div style="margin:0 auto; float: unset; padding: 15px;" class="col-md-7">
+            <select class="form-control" required [(ngModel)]="selectedRole.pos" name="pointOfSale" name="pos" #pointOfSale="ngModel">
+              <option value="none" disabled selected>Choose your pointOfSale</option>
+              <option *ngFor="let p of pos" [value]="p">{{p}}</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" [disabled]="!selectRoleForm.form.valid"> Add </button>
+        <div *ngIf="selectRoleForm.submitted && error" class="alert alert-danger">{{error}}</div>
+      </form>
+    </div>
+    <div class="roleform col-md-5 col-md-offset-2">
+      <div class="row">
+        <div class="labels text-center">Selected Roles</div>
+		  	<br/>
+        <div class="selected-roles text-center">
+            <div class="row text-center" *ngFor="let p of selectedRoles">
+              <span>{{p.role}} , {{p.tenant}} , {{p.pos}}</span>
+              <button class="delete" (click)="removeRole(p); $event.stopPropagation()">x</button>
+            </div>
+            <div class="row text-center" *ngFor="let p of userInfo.roles">
+              <p [ngClass]= "{'text-primary': p.status === 'Active'}">{{p.tenant}},{{p.pos}},{{p.role}},{{p.status}}</p>
+            </div>
+        </div>
+      </div>
+      <form class="form-horizontal" (ngSubmit)="roleForm.form.valid && selectedRoles.length !=0 && onSubmit()" name="roleForm"  #roleForm="ngForm" novalidate>
+        <div class="row">
+          <div class="labels text-center">Manager Email</div>
+        <br/>
+        <div class="form-group text-center has-feedback has-feedback-left" [ngClass]="{ 'has-error': roleForm.submitted && !email.valid }">
+          <div style="margin:0 auto; float: unset;" class="col-md-8">
+            <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
+            <input class="form-control" required type="email" placeholder="Manager Email" class="form-control" [(ngModel)] = "roleRequest.managerEmail" #email="ngModel" name="email"/>
+            <div *ngIf="roleForm.submitted && !email.valid" class="help-block">Email is required</div>
+          </div>
+        </div>
+        </div>
+        <div class="row text-center">
+        <button style="margin: 10px;" type="submit" [disabled]="!roleForm.form.valid || selectedRoles.length === 0"> Submit </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

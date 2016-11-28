@@ -57,4 +57,6 @@
 /* You can add global styles to this file, and also import other style files */
 body{
   font-family: 'Roboto', sans-serif;
+  background: url("/assets/photo_bg.jpg") no-repeat center center fixed;
+  background-size: cover;
 }

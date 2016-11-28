@@ -7,16 +7,6 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class UserService {
 
-    getBrandMap(): Promise<any> {
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json');
-        return this.http.get('http://localhost:8080/api/groups', {headers: headers})
-               .toPromise()
-               .then(response => response.json() as any)
-               .catch(this.handleError);
-    }
-
     getGroupRoleMap(): Promise<any> {
         let headers = new Headers();
         headers.append('Accept', 'application/json');
@@ -51,7 +41,7 @@ export class UserService {
     }
 
     private handleError(error: Error): Promise<any> {
-        console.error("An error occured",error);
+        console.error('An error occured', error);
         return Promise.reject(error.message || error);
     }
 

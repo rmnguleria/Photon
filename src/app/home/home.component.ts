@@ -24,6 +24,9 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.selectedRole.pos = 'none';
+    this.selectedRole.role = 'none';
+    this.selectedRole.tenant = 'none';
     this.userService.getGroupRoleMap().then(groupRoleData => this.groupRoleInfo = groupRoleData);
     this.userService.getUserInfo().then(userInfo => this.userInfo = userInfo);
   }
@@ -50,6 +53,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  isValid() {
+    return false;
+  }
+
   onAddRole() {
     console.log('Affing role');
     for (let i = 0; i < this.groupRoleInfo.length ; i++) {
@@ -71,10 +78,10 @@ export class HomeComponent implements OnInit {
               console.log('MAtches');
               if (curRole.status === 'Active') {
                 push = false;
-                this.error = 'Already exists , bitch !';
+                this.error = 'Requested Role is already assigned.';
               }else if (curRole.status === 'Waiting') {
                 push = false;
-                this.error = 'Already waiting, cunt!';
+                this.error = 'Request for this role has been raise already.';
               }
               break;
             }
