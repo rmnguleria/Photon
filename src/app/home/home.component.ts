@@ -10,7 +10,6 @@ import {UserService} from '../user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private userInfo: User = new User();
   private selectedRole: RoleInfo = new RoleInfo();
   private selectedRoles: RoleInfo[] = new Array();
   private roleRequest: RoleRequest = new RoleRequest();
@@ -28,7 +27,6 @@ export class HomeComponent implements OnInit {
     this.selectedRole.role = 'none';
     this.selectedRole.tenant = 'none';
     this.userService.getGroupRoleMap().then(groupRoleData => this.groupRoleInfo = groupRoleData);
-    this.userService.getUserInfo().then(userInfo => this.userInfo = userInfo);
   }
 
   onRoleChange(newRole) {
@@ -58,7 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   onAddRole() {
-    console.log('Affing role');
+    console.log('Adding role');
     for (let i = 0; i < this.groupRoleInfo.length ; i++) {
       let groupRole = this.groupRoleInfo[i];
       if (groupRole['tenant'] === this.selectedRole.tenant &&
@@ -70,26 +68,8 @@ export class HomeComponent implements OnInit {
           role.pos = this.selectedRole.pos;
           role.role = this.selectedRole.role;
           console.log(role);
-          let push = true;
-          for (let j = 0; j < this.userInfo.roles.length; j++){
-            let curRole = this.userInfo.roles[j];
-            console.log(curRole);
-            if (role.groupRoleId === curRole.groupRoleId) {
-              console.log('MAtches');
-              if (curRole.status === 'Active') {
-                push = false;
-                this.error = 'Requested Role is already assigned.';
-              }else if (curRole.status === 'Waiting') {
-                push = false;
-                this.error = 'Request for this role has been raise already.';
-              }
-              break;
-            }
-          }
-          if (push === true) {
-            this.error = '';
-            this.selectedRoles.push(role);
-          }
+          this.error = '';
+          this.selectedRoles.push(role);
           break;
       }
     }
@@ -97,9 +77,13 @@ export class HomeComponent implements OnInit {
 
   onSubmit() {
     this.roleRequest.requestedRoles = new Array();
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.roleRequest.userId = currentUser.user_id;
+    this.roleRequest.managerEmail = currentUser.manager_email;
+    this.roleRequest.userName = currentUser.user_name;
+    this.roleRequest.userEmail = currentUser.user_email;
     this.roleRequest.requestedRoles = this.selectedRoles;
     this.userService.submitRoleRequest(this.roleRequest).then(response => {
-
     });
   }
 

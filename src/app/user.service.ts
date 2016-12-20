@@ -16,24 +16,12 @@ export class UserService {
                .catch(this.handleError);
     }
 
-    getUserInfo(): Promise<any> {
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json');
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        headers.append('Authorization', 'Bearer ' + currentUser.token);
-        return this.http.get('http://localhost:8080/api/account', {headers: headers})
-               .toPromise()
-               .then(response => response.json() as any)
-               .catch(this.handleError);
-    }
-
     submitRoleRequest(roleRequest: RoleRequest): Promise<any> {
         let headers = new Headers();
        headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json');
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        headers.append('Authorization', 'Bearer ' + currentUser.token);
+        headers.append('Authorization', 'Bearer ' + currentUser.id_token);
         return this.http.post('http://localhost:8080/api/requestrole', roleRequest, {headers: headers})
               .toPromise()
               .then(response => response.json as any)

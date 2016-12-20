@@ -52,23 +52,9 @@
               <span>{{p.role}} , {{p.tenant}} , {{p.pos}}</span>
               <button class="delete" (click)="removeRole(p); $event.stopPropagation()">x</button>
             </div>
-            <div class="row text-center" *ngFor="let p of userInfo.roles">
-              <p [ngClass]= "{'text-primary': p.status === 'Active'}">{{p.tenant}},{{p.pos}},{{p.role}},{{p.status}}</p>
-            </div>
         </div>
       </div>
       <form class="form-horizontal" (ngSubmit)="roleForm.form.valid && selectedRoles.length !=0 && onSubmit()" name="roleForm"  #roleForm="ngForm" novalidate>
-        <div class="row">
-          <div class="labels text-center">Manager Email</div>
-        <br/>
-        <div class="form-group text-center has-feedback has-feedback-left" [ngClass]="{ 'has-error': roleForm.submitted && !email.valid }">
-          <div style="margin:0 auto; float: unset;" class="col-md-8">
-            <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
-            <input class="form-control" required type="email" placeholder="Manager Email" class="form-control" [(ngModel)] = "roleRequest.managerEmail" #email="ngModel" name="email"/>
-            <div *ngIf="roleForm.submitted && !email.valid" class="help-block">Email is required</div>
-          </div>
-        </div>
-        </div>
         <div class="row text-center">
         <button style="margin: 10px;" type="submit" [disabled]="!roleForm.form.valid || selectedRoles.length === 0"> Submit </button>
         </div>
